@@ -1,0 +1,306 @@
+/*
+  Design direction: "Workshop floor" — this is a trade-skills portal, not a
+  generic SaaS product. Palette draws from steel, safety signage and
+  workwear rather than the usual cream/terracotta AI-default.
+
+  Colors:
+    --steel-900  #16232B  deep gunmetal (headers, nav, footer)
+    --steel-700  #29424F  panels / secondary surfaces
+    --steel-100  #EDF1F2  page background
+    --safety-500 #E8720C  safety-orange accent (primary actions, highlights)
+    --safety-700 #C25A02  hover state for accent
+    --brass-400  #C9A227  used sparingly for "approved / verified" badges
+
+  Type: a sturdy grotesque (Barlow Condensed) for headings — like stencilled
+  workshop signage — paired with a plain, highly legible body face (Inter).
+*/
+
+:root {
+  --steel-900: #16232b;
+  --steel-800: #1e333d;
+  --steel-700: #29424f;
+  --steel-200: #d7e0e3;
+  --steel-100: #edf1f2;
+  --safety-500: #e8720c;
+  --safety-700: #c25a02;
+  --brass-400: #c9a227;
+  --white: #ffffff;
+  --success: #2e7d32;
+  --danger: #b3261e;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Inter", "Segoe UI", Arial, sans-serif;
+  --radius: 4px;
+  --shadow-sm: 0 1px 3px rgba(22, 35, 43, 0.15);
+  --shadow-md: 0 4px 12px rgba(22, 35, 43, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--steel-100);
+  color: var(--steel-900);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--steel-900);
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--safety-700);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button,
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.65rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+button:focus-visible,
+.btn:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--brass-400);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--safety-500);
+  color: var(--white);
+}
+.btn-primary:hover {
+  background: var(--safety-700);
+}
+.btn-secondary {
+  background: var(--steel-700);
+  color: var(--white);
+}
+.btn-secondary:hover {
+  background: var(--steel-800);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--steel-700);
+  border: 2px solid var(--steel-700);
+}
+.btn-outline:hover {
+  background: var(--steel-700);
+  color: var(--white);
+}
+.btn-danger {
+  background: var(--danger);
+  color: var(--white);
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.page {
+  min-height: calc(100vh - 64px - 120px);
+  padding: 2rem 0 3rem;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  border-left: 4px solid var(--safety-500);
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+}
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--steel-800);
+}
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--steel-200);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: var(--white);
+}
+textarea {
+  resize: vertical;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.badge-applied {
+  background: #e3e9eb;
+  color: var(--steel-800);
+}
+.badge-shortlisted {
+  background: #fff2e3;
+  color: var(--safety-700);
+}
+.badge-hired {
+  background: #e6f4e6;
+  color: var(--success);
+}
+.badge-rejected {
+  background: #fbe9e8;
+  color: var(--danger);
+}
+.badge-withdrawn {
+  background: #eee;
+  color: #777;
+}
+.badge-pending {
+  background: #fff8e1;
+  color: var(--brass-400);
+}
+.badge-approved {
+  background: #e6f4e6;
+  color: var(--success);
+}
+
+.alert {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  font-size: 0.92rem;
+}
+.alert-error {
+  background: #fbe9e8;
+  color: var(--danger);
+  border: 1px solid #f0c4c1;
+}
+.alert-success {
+  background: #e6f4e6;
+  color: var(--success);
+  border: 1px solid #bfe3bf;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+}
+th,
+td {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--steel-200);
+  font-size: 0.9rem;
+}
+th {
+  background: var(--steel-800);
+  color: var(--white);
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--steel-700);
+}
+
+.stat-card {
+  background: var(--steel-900);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  border-left: 4px solid var(--brass-400);
+}
+.stat-card .stat-value {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+.stat-card .stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid var(--steel-200);
+}
+.tab {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--steel-700);
+  border-bottom: 3px solid transparent;
+}
+.tab.active {
+  color: var(--safety-700);
+  border-bottom-color: var(--safety-500);
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1.25rem 0 2rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+}
