@@ -1,5 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
 
 import os
 
@@ -13,7 +11,6 @@ from routes import api
 from sockets import register_socket_handlers
 from math_engine import MathParser, SympySolver, LLMExplainer
 
-socketio = SocketIO(cors_allowed_origins="*", async_mode="eventlet")
 
 
 def create_app(env=None):
