@@ -85,6 +85,30 @@ mathchat-ai-platform/
         └── services/ (socket.js, api.js)
 ```
 
+## Deploy to Render
+
+`render.yaml` at the repo root defines both services as a Render Blueprint:
+
+1. Push this repo to GitHub.
+2. On Render: **New → Blueprint** → connect the repo → Render reads `render.yaml`
+   and creates `mathchat-ai-backend` (Python web service) + `mathchat-ai-frontend`
+   (static site) automatically.
+3. Set the secret env vars Render prompts for (`ANTHROPIC_API_KEY` or
+   `OPENAI_API_KEY`) — they're marked `sync: false` so Render asks at deploy time
+   instead of storing them in the blueprint file.
+4. After the backend's first deploy, copy its live URL and update
+   `REACT_APP_SOCKET_URL` / `REACT_APP_API_URL` in the frontend service's env
+   vars (and in `render.yaml` if you redeploy from it) if the auto-generated
+   name differs from `mathchat-ai-backend.onrender.com`.
+5. Redeploy the frontend after that env var change so the build picks it up.
+
+Key production details baked in:
+- `backend/Procfile` / `startCommand` runs `gunicorn --worker-class eventlet -w 1 app:app` — Flask-SocketIO **requires** the eventlet worker class for WebSocket support; the default sync worker will not work.
+- `app.py` calls `eventlet.monkey_patch()` at the very top, before other imports — required when SocketIO isn't running its own dev server (i.e. under gunicorn).
+- Free-tier Render spins down on idle, so the first request after inactivity will be slow (cold start) and any open WebSocket connections will drop — expected on the free plan.
+- SQLite (`DATABASE_URL=sqlite:///mathchat.db`) is fine for a demo but resets on redeploy since Render's filesystem isn't persistent across deploys on the free plan. For real persistence, add a Render Postgres instance and point `DATABASE_URL` at it.
+- CORS is wide open (`CORS_ORIGINS=*`) for easy setup — lock this down to your actual frontend URL before sharing the link publicly.
+
 ## Notes / next steps
 
 - Swap SQLite for Postgres by setting `DATABASE_URL` for multi-instance deployments.
